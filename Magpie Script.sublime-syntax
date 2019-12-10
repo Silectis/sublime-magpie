@@ -1,0 +1,86 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - magpie
+scope: source.mp
+contexts:
+  main:
+    - match: '"'
+      scope: punctuation.definition.string.begin.mp
+      push: double_quoted_string
+
+    - match: '//'
+      scope: punctuation.definition.comment.mp
+      push: line_comment
+
+    # syntax
+    - match: '(?i)\b(create|describe|list|alter|add|drop|delete|remove|with|save|set|in|exists|from|use|between|about|help|copy|recursive|script)\b'
+      scope: keyword.control.mp
+
+    # flow
+    - match: '(?i)\b(job|project|task|schedule|jobs|projects|tasks|schedules|metrics|history|predecessor|start|exec|execute|execution|cancel|state|none|notification|subscription|subscriptions)\b'
+      scope: keyword.control.mp
+
+    # profiling
+    - match: '(?i)\b(profile)\b'
+      scope: keyword.control.mp
+
+    # inference
+    - match: '(?i)\b(discover|relationships)\b'
+      scope: keyword.control.mp
+
+    # metadata
+    - match: '(?i)\b(temp|temporary|repository|schema|table|stream|sink|field|data|source|repositories|schemas|tables|streams|sinks|fields|sources|cascade|start|stop)\b'
+      scope: keyword.control.mp
+
+    # runtime
+    - match: '(?i)\b(result|show|blocking|cache|uncache|print|export)\b'
+      scope: keyword.control.mp
+
+    # security
+    - match: '(?i)\b(organization|user|organizations|users|password|role|roles|grant|revoke|usage|activity)\b'
+      scope: keyword.control.mp
+
+    # sql
+    - match: '(?i)\b(sql|select|insert|update|delete|from|where|and|or|group|by|order|limit|offset|having|as|case|then|when|else|end|type|left|right|join|on|outer|desc|asc|union|table|primary|key|if|foreign|not|references|default|null|inner|cross|semi|anti|natural|database|using)\b'
+      scope: keyword.control.mp
+
+    # sources
+    - match: '(?i)\b(file|files|path|url)\b'
+      scope: keyword.control.mp
+
+    # builtinFunctions
+    - match: '(?i)\b(avg|count|first|last|max|min|sum|ucase|lcase|mid|len|round|rank|now|format|coalesce|ifnull|isnull|nvl|regexp_replace|convert|cast)\b'
+      scope: entity.name.function.mp
+
+    # dataTypes
+    - match: '(?i)\b(int|numeric|decimal|date|varchar|char|bigint|float|double|bit|binary|text|set|timestamp|money|real|number|integer)\b'
+      scope: entity.name.type
+
+    - match: '\b[+-]?\d+(?:(?:\.\d*)?(?:[eE][+-]?\d+)?)?\b'
+      scope: constant.numeric.mp
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.mp
+    - match: '\\.'
+      scope: constant.character.escape.mp
+    - match: '"'
+      scope: punctuation.definition.string.end.mp
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.mp
+    - match: $
+      pop: true
+
+  prototype:
+    - include: multiline_comment
+  
+  multiline_comment:
+    - match: '\/\*'
+      scope: punctuation.definition.comment.c
+      push: 
+        - meta_scope: comment.block.c
+        - match: '\*\/'
+          pop: true
