@@ -10,6 +10,10 @@ contexts:
       scope: punctuation.definition.string.begin.mp
       push: double_quoted_string
 
+    - match: "'"
+      scope: punctuation.definition.string.begin.mp
+      push: single_quoted_string
+
     - match: '//'
       scope: punctuation.definition.comment.mp
       push: line_comment
@@ -66,6 +70,14 @@ contexts:
     - match: '\\.'
       scope: constant.character.escape.mp
     - match: '"'
+      scope: punctuation.definition.string.end.mp
+      pop: true
+
+  single_quoted_string:
+    - meta_scope: string.quoted.single.mp
+    - match: '\\.'
+      scope: constant.character.escape.mp
+    - match: "'"
       scope: punctuation.definition.string.end.mp
       pop: true
 
